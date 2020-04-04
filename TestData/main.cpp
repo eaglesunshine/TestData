@@ -15,50 +15,50 @@ string output_test_data_file_name = "data/test_data_test.txt";
 string output_result_file_name = "data/result_test.txt";
 
 // func
-void generate_1(map<int, unordered_set<int>> &mp, int count_v, int count_e);	// Ëæ»úÉú³É£¬±£Ö¤±ßÊıÄ¿£¬ÎŞresultÉú³É
-bool generate_2(map<int, unordered_set<int>> &mp, map<int, set<vector<int>>> &pathAll, int count_v, int count_e, int count_c);	// Ëæ»úÉú³É£¬±£Ö¤±ßÊıÄ¿ºÍ×îµÍ»·ÊıÄ¿£¬²¢Êä³ö²¿·Öresult
-inline void translatePath(vector<int> &path, vector<int> &new_path);	// ½«path×ªÎªĞ¡idÔÚÇ°µÄnew_path
-void outputTestData(map<int, unordered_set<int>> &mp, string filename);	// Êä³ötest_data
-void outputResult(map<int, set<vector<int>>> &Result, string filename);	// Êä³ö²¿·Öresult
+void generate_1(map<int, unordered_set<int>> &mp, int count_v, int count_e);	// éšæœºç”Ÿæˆï¼Œä¿è¯è¾¹æ•°ç›®ï¼Œæ— resultç”Ÿæˆ
+bool generate_2(map<int, unordered_set<int>> &mp, map<int, set<vector<int>>> &pathAll, int count_v, int count_e, int count_c);	// éšæœºç”Ÿæˆï¼Œä¿è¯è¾¹æ•°ç›®å’Œæœ€ä½ç¯æ•°ç›®ï¼Œå¹¶è¾“å‡ºéƒ¨åˆ†result
+inline void translatePath(vector<int> &path, vector<int> &new_path);	// å°†pathè½¬ä¸ºå°idåœ¨å‰çš„new_path
+void outputTestData(map<int, unordered_set<int>> &mp, string filename);	// è¾“å‡ºtest_data
+void outputResult(map<int, set<vector<int>>> &Result, string filename);	// è¾“å‡ºéƒ¨åˆ†result
 
 
 int main()
 {
 	srand(int(time(NULL)));
 
-	int count_v = 100000;	// ¶¥µãÊı
-	int count_e = 280000;	// ±ßÊı
-	int count_c = 1000000;	// »·Êı
+	int count_v = 100000;	// é¡¶ç‚¹æ•°
+	int count_e = 280000;	// è¾¹æ•°
+	int count_c = 1000000;	// ç¯æ•°
 
-	// ³õÊ¼»¯
-	map<int, unordered_set<int>> mp;	// keyÎªfrom_id£¬valueÎªfrom_id¿ÉÒÔµ½´ïµÄto_idĞòÁĞ
+	// åˆå§‹åŒ–
+	map<int, unordered_set<int>> mp;	// keyä¸ºfrom_idï¼Œvalueä¸ºfrom_idå¯ä»¥åˆ°è¾¾çš„to_idåºåˆ—
 	map<int, set<vector<int>>> pathAll;
 	unordered_set<int> st_temp;
 	for (int i = 0; i < count_v; i++)
 		mp.insert(pair<int, unordered_set<int>>(i, st_temp));
 
 	// process
-	//generate_1(mp, count_v, count_e);						// Ëæ»úÉú³É£¬±£Ö¤±ßÊıÄ¿£¬ÎŞresultÉú³É
-	generate_2(mp, pathAll, count_v, count_e, count_c);		// Ëæ»úÉú³É£¬±£Ö¤±ßÊıÄ¿ºÍ×îµÍ»·ÊıÄ¿£¬²¢Êä³ö²¿·Öresult
+	generate_1(mp, count_v, count_e);						// éšæœºç”Ÿæˆï¼Œä¿è¯è¾¹æ•°ç›®ï¼Œæ— resultç”Ÿæˆ
+	//generate_2(mp, pathAll, count_v, count_e, count_c);		// éšæœºç”Ÿæˆï¼Œä¿è¯è¾¹æ•°ç›®å’Œæœ€ä½ç¯æ•°ç›®ï¼Œå¹¶è¾“å‡ºéƒ¨åˆ†result
 
 	// output
-	outputTestData(mp, output_test_data_file_name);			//Êä³ötest_data
-	outputResult(pathAll, output_result_file_name);			//Êä³öresult
+	outputTestData(mp, output_test_data_file_name);			//è¾“å‡ºtest_data
+	outputResult(pathAll, output_result_file_name);			//è¾“å‡ºresult
 
 	cout << "generate file success!!" << endl;
 	cout << "test_data file path: " << output_test_data_file_name << endl;
-	cout << "result file path: " << output_result_file_name << endl;
+	//cout << "result file path: " << output_result_file_name << endl;
 	return 0;
 }
 
 void generate_1(map<int, unordered_set<int>> &mp, int count_v, int count_e)
 {
-	for (int i = 0; i < count_e; i++)	// ¿ØÖÆ×Ü±ßÊı
+	for (int i = 0; i < count_e; i++)	// æ§åˆ¶æ€»è¾¹æ•°
 	{
-		int from = rand() % count_v;	// Ëæ»úÆğµã
-		int to = rand() % count_v;		// Ëæ»úÖÕµã
+		int from = rand() % count_v;	// éšæœºèµ·ç‚¹
+		int to = rand() % count_v;		// éšæœºç»ˆç‚¹
 
-		while (from == to || mp[from].find(to) != mp[from].end())	// ±£Ö¤from!=to£¬ÇÒfrom¡¢to²»Íæ»¥Ïà×ªÕË£¬·ñÔòÖØĞÂËæ»ú
+		while (from == to || mp[from].find(to) != mp[from].end())	// ä¿è¯from!=toï¼Œä¸”fromã€toä¸ç©äº’ç›¸è½¬è´¦ï¼Œå¦åˆ™é‡æ–°éšæœº
 		{
 			from = rand() % count_v;
 			to = rand() % count_v;
@@ -71,29 +71,29 @@ inline void translatePath(vector<int> &path, vector<int> &new_path)
 {
 	auto smallest = std::min_element(path.begin(), path.end());
 
-	//´Ó×îĞ¡ÔªËØ¿ªÊ¼Á´½Ó
+	//ä»æœ€å°å…ƒç´ å¼€å§‹é“¾æ¥
 	new_path.clear();
 	new_path.insert(new_path.begin(), smallest, path.end());
 
-	//Í·²¿¿ÉÄÜ»¹ÓĞÔªËØ
+	//å¤´éƒ¨å¯èƒ½è¿˜æœ‰å…ƒç´ 
 	new_path.insert(new_path.end(), path.begin(), smallest);
 }
 
 bool generate_2(map<int, unordered_set<int>> &mp, map<int, set<vector<int>>> &pathAll, int count_v, int count_e, int count_c)
 {
-	// ±£Ö¤×îµÍ»·µÄÊıÄ¿
+	// ä¿è¯æœ€ä½ç¯çš„æ•°ç›®
 	int edge_count = 0;
 	vector<int> path;
 	vector<int> new_path;
 	set<int> idAll;
 	for (int i = 0; i < count_c; i++)
 	{
-		// »·µÄ³¤¶ÈÔÚËæ»úÔÚ3-7Ö®¼ä
+		// ç¯çš„é•¿åº¦åœ¨éšæœºåœ¨3-7ä¹‹é—´
 		int len = rand() % 5 + 3;	
 
 		path.clear();
 		idAll.clear();
-		int start_id = rand() % count_v;	// Ëæ»úÆğµã
+		int start_id = rand() % count_v;	// éšæœºèµ·ç‚¹
 		path.push_back(start_id);
 		idAll.insert(start_id);
 		int from, to;
@@ -102,12 +102,12 @@ bool generate_2(map<int, unordered_set<int>> &mp, map<int, set<vector<int>>> &pa
 			if (j == len - 1)
 			{
 				from = path.back();
-				to = start_id;				// Í·==Î²
+				to = start_id;				// å¤´==å°¾
 			}
 			else
 			{
 				from = path.back();
-				to = rand() % count_v;		// Ëæ»úÖÕµã
+				to = rand() % count_v;		// éšæœºç»ˆç‚¹
 
 				path.push_back(to);
 			}
@@ -120,7 +120,7 @@ bool generate_2(map<int, unordered_set<int>> &mp, map<int, set<vector<int>>> &pa
 		pathAll[len].insert(new_path);
 	}
 
-	// ±ßÊıÄ¿³¬³ö¾¯¸æ
+	// è¾¹æ•°ç›®è¶…å‡ºè­¦å‘Š
 	if (edge_count > count_e)
 	{
 		cout << "generate fixed circles: " << count_c << ", cost edges: " << edge_count << endl;
@@ -132,13 +132,13 @@ bool generate_2(map<int, unordered_set<int>> &mp, map<int, set<vector<int>>> &pa
 		cout << "generate fixed circles: " << count_c << ", cost edges: " << edge_count << endl << endl;
 	}
 
-	// ±£Ö¤±ßµÄÊıÄ¿, ²»¹»µÄËæ»úÉú³É
-	for (int i = edge_count; i < count_e; i++)	// ¿ØÖÆ×Ü±ßÊı
+	// ä¿è¯è¾¹çš„æ•°ç›®, ä¸å¤Ÿçš„éšæœºç”Ÿæˆ
+	for (int i = edge_count; i < count_e; i++)	// æ§åˆ¶æ€»è¾¹æ•°
 	{
-		int from = rand() % count_v;	// Ëæ»úÆğµã
-		int to = rand() % count_v;		// Ëæ»úÖÕµã
+		int from = rand() % count_v;	// éšæœºèµ·ç‚¹
+		int to = rand() % count_v;		// éšæœºç»ˆç‚¹
 
-		while (from == to || mp[from].find(to) != mp[from].end())	// ±£Ö¤from!=to£¬ÇÒfrom¡¢to²»Íæ»¥Ïà×ªÕË£¬·ñÔòÖØĞÂËæ»ú
+		while (from == to || mp[from].find(to) != mp[from].end())	// ä¿è¯from!=toï¼Œä¸”fromã€toä¸ç©äº’ç›¸è½¬è´¦ï¼Œå¦åˆ™é‡æ–°éšæœº
 		{
 			from = rand() % count_v;
 			to = rand() % count_v;
@@ -165,27 +165,27 @@ void outputTestData(map<int, unordered_set<int>> &mp, string filename)
 void outputResult(map<int, set<vector<int>>> &Result, string filename)
 {
 	ofstream outFile;
-	// ´ò¿ªÎÄ¼ş ÅĞ¶ÏÊÇ·ñ´ò¿ª³É¹¦
+	// æ‰“å¼€æ–‡ä»¶ åˆ¤æ–­æ˜¯å¦æ‰“å¼€æˆåŠŸ
 	outFile.open(filename, ios::out);
 	if (!outFile.is_open()) {
 		cout << "open output file failed" << endl;
 		return;
 	}
 
-	//¼ÆËã×ÜÂ·¾¶ÊıÄ¿
+	//è®¡ç®—æ€»è·¯å¾„æ•°ç›®
 	int sum = 0;
 	for (auto it = Result.begin(); it != Result.end(); it++)
 	{
 		sum += int(it->second.size());
 	}
 
-	//Êä³ö×ÜÂ·¾¶ÊıÄ¿
+	//è¾“å‡ºæ€»è·¯å¾„æ•°ç›®
 	outFile << sum << endl;
 
-	//Êä³ö¾ßÌåÂ·¾¶
-	for (auto it = Result.begin(); it != Result.end(); it++)	//Ã¿Ò»×éÏàÍ¬³¤¶ÈµÄ»·Â·ĞòÁĞ
+	//è¾“å‡ºå…·ä½“è·¯å¾„
+	for (auto it = Result.begin(); it != Result.end(); it++)	//æ¯ä¸€ç»„ç›¸åŒé•¿åº¦çš„ç¯è·¯åºåˆ—
 	{
-		for (auto iter = it->second.begin(); iter != it->second.end(); iter++)		//Ã¿Ò»¸ö»·Â·
+		for (auto iter = it->second.begin(); iter != it->second.end(); iter++)		//æ¯ä¸€ä¸ªç¯è·¯
 		{
 			for (int i = 0; i<int((*iter).size()); i++)
 			{
